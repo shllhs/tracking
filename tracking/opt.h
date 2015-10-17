@@ -1,14 +1,20 @@
+#ifndef OPT_H
+#define OPT_H
+
 #include<utility>
+#include<cstring>
+#include<string>
+using namespace std;
 struct opt
 {
-	char root[20];
-	char mot[50];
-	char mot2d[20];
-	char results[20];
+	string root;
+	string mot;
+	string mot2d;
+	string results;
 	
-	char mot2d_train_seqs[15][30];
+	string mot2d_train_seqs[15];
 	int mot2d_train_nums[15];
-	char mot2d_test_seqs[15][30];
+	string mot2d_test_seqs[15];
 	int mot2d_test_nums[15];
 
 	//tracking parameters
@@ -25,7 +31,7 @@ struct opt
 	double max_ratio;
 	double min_vnorm;
 	double overlap_box;
-	std::pair<int,int>patchsize;
+	pair<int,int>patchsize;
 	double weight_tracking;
 	double weight_association;
 
@@ -45,3 +51,5 @@ struct opt
 	double exit_threshold;
 	int tracked;
 }
+
+#endif
