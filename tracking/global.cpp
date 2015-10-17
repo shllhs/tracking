@@ -1,7 +1,7 @@
 #include <direct.h>
 #include "opt.h";
 
-int global(opt *tmp)
+int global(Opt *tmp)
 {
 	//opt *tmp = new opt();
 	tmp->mot = "../../evaluation/data/";

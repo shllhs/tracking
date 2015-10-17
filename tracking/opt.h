@@ -5,7 +5,7 @@
 #include<cstring>
 #include<string>
 using namespace std;
-struct opt
+struct Opt
 {
 	string root;
 	string mot;
