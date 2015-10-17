@@ -81,10 +81,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="MDP_initialize_test.cpp" />
+    <ClCompile Include="MDP_test.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dres_det.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="opt.h" />
+    <ClInclude Include="tracker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
