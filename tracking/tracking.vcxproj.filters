@@ -27,6 +27,9 @@
     <ClCompile Include="MDP_initialize_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="read_mot2dres.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="opt.h">

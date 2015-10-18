@@ -83,6 +83,7 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="MDP_initialize_test.cpp" />
     <ClCompile Include="MDP_test.cpp" />
+    <ClCompile Include="read_mot2dres.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>

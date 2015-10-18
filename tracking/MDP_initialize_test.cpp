@@ -1,7 +1,9 @@
 #include "tracker.h"
+#include "dres_det.h"
 #include<vector>
 #include<armadillo>
 using namespace arma;
+
 int MDP_initialize_test(Tracker *tracker,int image_width,int image_height,Dres_det *dres_det,int is_show)
 {
 	tracker->image_width = image_width;
