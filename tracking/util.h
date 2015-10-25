@@ -28,4 +28,8 @@ Dres_det MDP_crop_image_box(Dres_det dres_det,cv::Mat I,Tracker tracker);
 int MDP_initialize_test(Tracker *tracker,int image_width,int image_height,Dres_det *dres_det,int is_show);
 
 mat bb_shift_relative(mat bb,pair<double,double>shift);
+
+double calc_overlap(Dres_image dres1,int f1,Dres_image dres2,int f2);
+
+int util(vec bb);
 #endif

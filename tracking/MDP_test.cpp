@@ -42,6 +42,8 @@ int MDP_test(int seq_idx,string seq_set,Tracker *track)
 	Col<Tracker>trackers;
 	int id = 0;
 
+	Dres_det dres_tmp,dres_associate;
+	uvec index;
 	for(int fr = 1;fr<seq_num;fr++)
 	{
 		//extract detection
@@ -50,6 +52,30 @@ int MDP_test(int seq_idx,string seq_set,Tracker *track)
 
 		dres = MDP_crop_image_box(dres, dres_image.Igray{fr}, tracker);
 
+		//sort trackers
+		uvec index_track = sort_trackers(trackers);
+
+		//process trackers
+		for(int i = 1;i<=index_track.size();i++)
+		{
+			int ind = index_track(i);
+			if(trackers(ind).state == 2)
+			{
+				track(fr,dres_image,dres,trackers(ind),opt);
+				if(trackers(ind).state == 3)
+				{
+					generate_initial_index(dres_tmp,index,trackers(index_track(span(1,i-1))),dres);
+					dres_associate = sub(dres_tmp,index);
+					trackers(ind) = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+				}
+			}
+			else if(trackers(ind).state == 3)
+			{
+				generate_initial_index(dres_tmp,index,trackers(index_track(span(1,i-1))),dres);
+				dres_associate = sub(dres_tmp,index);
+				trackers(ind) = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+			}
+		}
 	}
 }
 
@@ -121,3 +147,29 @@ Tracker initialize(int fr,Dres_image dres_image,int id,Dres_det dres,int ind,Tra
 		tracker.dres = dres_one;
 	}
 }
+
+void track(int fr,Dres_image dres_image,Dres_det dres,Tracker &tracker,Opt opt)
+{
+
+	if(tracker.state == 2)
+	{
+		tracker.streak_occluded = 0;
+		tracker.streak_tracked = tracker.streak_tracked + 1;
+
+		uvec index_det;
+		MDP_value(tracker, fr, dres_image, dres, index_det);
+
+		double ov = calc_overlap(tracker.dres,tracker.dres.fr.size(),dres_image,fr);
+		if(ov<opt.exit_threshold)
+		{
+			if(opt.is_text)
+			{
+				printf("target outside image by checking boarders\n");
+			}
+			tracker.state = 0;
+		}
+
+	}
+}
+
+

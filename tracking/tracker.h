@@ -19,6 +19,7 @@ struct Tracker
 	int streak_tracked;
 	int streak_occluded;
 	int state;
+	int prev_state;
 
 	Dres_det dres;
 	vec bb;

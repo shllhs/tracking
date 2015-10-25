@@ -49,8 +49,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -80,16 +79,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bb_rescale_relative.cpp" />
+    <ClCompile Include="bb_shift_absolute.cpp" />
+    <ClCompile Include="bb_shift_relative.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="im_crop.cpp" />
+    <ClCompile Include="LK_crop_image_box.cpp" />
+    <ClCompile Include="LK_initialize.cpp" />
+    <ClCompile Include="MDP_crop_image_box.cpp" />
     <ClCompile Include="MDP_initialize_test.cpp" />
     <ClCompile Include="MDP_test.cpp" />
     <ClCompile Include="read_mot2dres.cpp" />
+    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bbox.h" />
     <ClInclude Include="dres_det.h" />
-    <ClInclude Include="global.h" />
+    <ClInclude Include="dres_image.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="opt.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="tracker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
