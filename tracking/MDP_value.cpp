@@ -5,7 +5,7 @@
 using namespace arma;
 void MDP_value(Tracker tracker,int frame_id,Dres_image dres_image,Dres_det dres_det,uvec index_det)
 {
-	Dres_det dres_one;
+	Dres_det dres_one,dres;
 	int label;
 	//tracked, decide to tracked or occluded
 	if(tracker.state == 2)
@@ -70,7 +70,70 @@ void MDP_value(Tracker tracker,int frame_id,Dres_image dres_image,Dres_det dres_
 		else
 		{
 			// extract features with LK association
+			dres = sub(dres_det, index_det);
 
+			vec flag;
+			mat features,probs;
+			MDP_feature_occluded(features,flag,frame_id, dres_image, dres, tracker);
+			int m = features.size();
+			uvec labels = -1*ones<uvec>(m);
+
+			[labels, ~, probs] = svmpredict(labels, features, tracker.w_occluded, '-b 1 -q');
+			probs(flag == 0,1) = 0;
+			probs(flag == 0,2) = 1;
+
+			uword ind;
+			double qscore = probs.col(1).max(ind);
+			int label = labels(ind);
+			vec f = features.row(ind);
+
+			dres_one = sub(dres_det, index_det(ind));
+			tracker = LK_associate(frame_id, dres_image, dres_one, tracker);
+		}
+
+		//make a decision
+		tracker.prev_state = tracker.state;
+		if(label>0)
+		{
+			//association
+			tracker.state = 2;
+			//build the dres structure
+			//dres_one = [];
+			dres_one.fr = frame_id;
+			dres_one.id = tracker.target_id;
+			dres_one.x = tracker.bb(1);
+			dres_one.y = tracker.bb(2);
+			dres_one.w = tracker.bb(3) - tracker.bb(1);
+			dres_one.h = tracker.bb(4) - tracker.bb(2);
+			dres_one.r = 1;
+			dres_one.state = 2;
+
+			if(tracker.dres.fr(end) == frame_id)
+			{
+				dres = tracker.dres;
+				index = 1:numel(dres.fr)-1;
+				tracker.dres = sub(dres, index);  
+			}
+			tracker.dres = interpolate_dres(tracker.dres, dres_one);
+			//update LK tracker
+			tracker = LK_update(frame_id, tracker, dres_image.Igray(frame_id), dres_det, 1);       
+		}
+		else
+		{
+			% no association
+			tracker.state = 3;
+			dres_one = sub(tracker.dres, numel(tracker.dres.fr));
+			dres_one.fr = frame_id;
+			dres_one.id = tracker.target_id;
+			dres_one.state = 3;
+        
+			if(tracker.dres.fr(end) == frame_id)
+			{
+				dres = tracker.dres;
+				uvec index = linearspace<uvec>(1,dres.fr.size()-1);
+				tracker.dres = sub(dres, index);
+			}        
+			tracker.dres = concatenate_dres(tracker.dres, dres_one);       
 		}
 	}
 }

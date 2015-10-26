@@ -54,6 +54,15 @@
     <ClCompile Include="bb_shift_relative.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="calc_overlap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MDP_value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bb_isdef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="opt.h">

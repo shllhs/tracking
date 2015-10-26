@@ -10,7 +10,7 @@
 using namespace std;
 int MDP_test(int seq_idx,string seq_set,Tracker *track)
 {
-	Opt *opt = (Opt*)malloc(sizeof(Opt));
+	Opt opt;
 	int flag = global(opt);
 	if(flag == -1)
 	{
@@ -22,16 +22,16 @@ int MDP_test(int seq_idx,string seq_set,Tracker *track)
 	int seq_num;
 	if(seq_set == "train")
 	{
-		seq_name = opt->mot2d_train_seqs[seq_idx];
-		seq_num = opt->mot2d_train_nums[seq_idx];
+		seq_name = opt.mot2d_train_seqs[seq_idx];
+		seq_num = opt.mot2d_train_nums[seq_idx];
 	}
 	else
 	{
-		seq_name = opt->mot2d_test_seqs[seq_idx];
-		seq_num = opt->mot2d_test_nums[seq_idx];
+		seq_name = opt.mot2d_test_seqs[seq_idx];
+		seq_num = opt.mot2d_test_nums[seq_idx];
 	}
 
-	string filename = opt->mot+opt->mot2d+seq_set+seq_name+"det"+"det.txt";
+	string filename = opt.mot+opt.mot2d+seq_set+seq_name+"det"+"det.txt";
 	Dres_det dres_det= read_mot2dres(filename);
 
 	//intialize tracker
@@ -66,14 +66,16 @@ int MDP_test(int seq_idx,string seq_set,Tracker *track)
 				{
 					generate_initial_index(dres_tmp,index,trackers(index_track(span(1,i-1))),dres);
 					dres_associate = sub(dres_tmp,index);
-					trackers(ind) = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+					int flag = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+					if(flag!=1)printf("associate failed!\n");
 				}
 			}
 			else if(trackers(ind).state == 3)
 			{
 				generate_initial_index(dres_tmp,index,trackers(index_track(span(1,i-1))),dres);
 				dres_associate = sub(dres_tmp,index);
-				trackers(ind) = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+				int flag = associate(fr, dres_image,  dres_associate, trackers(ind), opt);
+				if(flag!=1)printf("associate failed!\n");
 			}
 		}
 	}
@@ -172,4 +174,21 @@ void track(int fr,Dres_image dres_image,Dres_det dres,Tracker &tracker,Opt opt)
 	}
 }
 
-
+//associate a lost target
+int associate(int fr, Dres_image dres_image,Dres_det dres_associate,Tracker &tracker,Opt opt)
+{
+	Dres_det dres_associate;
+	uvec index_det;
+	// occluded
+	if(tracker.state == 3)
+	{
+		 tracker.streak_occluded = tracker.streak_occluded + 1;
+		 //find a set of detections for association
+		 generate_association_index(dres_associate,index_det,tracker, fr, dres_associate);
+		 tracker = MDP_value(tracker, fr, dres_image, dres_associate, index_det);
+		 if(tracker.state == 2)
+		 {
+			 tracker.streak_occluded = 0;
+		 }
+	}
+}
