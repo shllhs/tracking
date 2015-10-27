@@ -20,6 +20,10 @@ struct Tracker
 	int streak_occluded;
 	int state;
 	int prev_state;
+	int fnum_active;
+
+	double threshold_dis;
+	double threshold_ratio;
 
 	Dres_det dres;
 	vec bb;

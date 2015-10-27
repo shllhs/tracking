@@ -13,6 +13,8 @@ struct Dres_det
 	vec h;
 	vec r;
 	uvec state;
-}
+	vec ratios;
+	vec distances;
+};
 
 #endif

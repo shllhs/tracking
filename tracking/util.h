@@ -11,7 +11,7 @@
 #include<opencv2/core/core.hpp>
 using namespace std;
 
-int global(Opt *tmp);
+int global(Opt opt);
 
 cv::Mat im_crop(cv::Mat img,Bbox bb);
 
@@ -29,7 +29,11 @@ int MDP_initialize_test(Tracker *tracker,int image_width,int image_height,Dres_d
 
 mat bb_shift_relative(mat bb,pair<double,double>shift);
 
-double calc_overlap(Dres_image dres1,int f1,Dres_image dres2,int f2);
+void calc_overlap(vec &ov,Dres_det dres1,int f1,Dres_det dres2,uvec f2);
+
+void calc_overlap(vec &ov,vec &ov_n1,Dres_det dres1,int f1,Dres_det dres2,uvec f2);
 
 int util(vec bb);
+
+Dres_det concatenate_dres(Dres_det dres1,Dres_det dres2);
 #endif

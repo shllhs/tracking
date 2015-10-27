@@ -50,6 +50,7 @@ struct Opt
 	double max_occlusion;
 	double exit_threshold;
 	int tracked;
-}
+	int is_text;
+};
 
 #endif

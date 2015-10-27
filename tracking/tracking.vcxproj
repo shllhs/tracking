@@ -79,22 +79,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="apply_motion_prediction.cpp" />
     <ClCompile Include="bb_isdef.cpp" />
     <ClCompile Include="bb_rescale_relative.cpp" />
     <ClCompile Include="bb_shift_absolute.cpp" />
     <ClCompile Include="bb_shift_relative.cpp" />
     <ClCompile Include="calc_overlap.cpp" />
+    <ClCompile Include="concatenate_dres.cpp" />
+    <ClCompile Include="generate_association_index.cpp" />
+    <ClCompile Include="generate_initial_index.cpp" />
+    <ClCompile Include="generate_results.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="im_crop.cpp" />
     <ClCompile Include="LK_crop_image_box.cpp" />
     <ClCompile Include="LK_initialize.cpp" />
     <ClCompile Include="MDP_crop_image_box.cpp" />
+    <ClCompile Include="MDP_feature_active.cpp" />
     <ClCompile Include="MDP_initialize_test.cpp" />
     <ClCompile Include="MDP_test.cpp" />
     <ClCompile Include="MDP_value.cpp" />
     <ClCompile Include="read_mot2dres.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="write_tracking_results.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox.h" />
